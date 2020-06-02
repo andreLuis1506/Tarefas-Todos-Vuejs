@@ -1,6 +1,6 @@
 <template>
     <div id="Add">
-        <form class="form" @submit.prevent=" () => { add(name), name = ''}">
+        <form class="form" @submit.prevent=" () => { $emit('addTask', name), name = ''}">
             <input v-model="name" type="text" required>
             <button type="submit" > + </button>
         </form>
@@ -9,29 +9,10 @@
 
 <script>
 export default {
-    props:['tasks'],
     data(){
         return{
             name:''
         }
-    },
-    methods:{
-        add(name){
-            const task = {
-                name:'',
-                status: false
-            }
-            const aux = this.tasks.filter(t => t.name === name).length
-            task.name = name
-
-            if(aux === 0){
-                this.tasks.push(task)
-
-            }
-            else{
-                alert('A tarrefa já existe.')
-            }
-        },
     }
 }
 </script>
@@ -42,11 +23,21 @@ export default {
     }
 
     .form input {
-        border: solid 1px lightgray;
+        background-color: #fff2;
+        color: white;
+        font-size: 1rem;
+        padding: 4px;
+        border: solid 1px white;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px ;
     }
 
     .form button{
-        border: solid 1px lightgray;
+        font-size: 1rem;
+        padding: 4px;
+        border: solid 1px white;
         background-color: lightgreen;
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px ;
     }
 </style>

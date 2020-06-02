@@ -2,7 +2,7 @@
 	<div id="app">
 		<h1>Tarefas</h1>
 		<ProgressBar :progress="progressBar" />
-		<Add :tasks="tasks" /> 
+		<Add @addTask="addTask" /> 
 		<div class="tarrefas">
 			<Tarrefas :tasks="tasks" @deleteTask="deleteTask" />
 		</div>
@@ -27,8 +27,23 @@ export default {
 	methods:{
 		deleteTask(i){
 			this.tasks.splice(i,1)
-		}
-		
+		},
+		addTask(name){
+            const task = {
+                name:'',
+                status: false
+            }
+            const aux = this.tasks.filter(t => t.name === name).length
+            task.name = name
+
+            if(aux === 0){
+                this.tasks.push(task)
+
+            }
+            else{
+                alert('A tarrefa já existe.')
+            }
+        },
 	},
 	computed:{
 		progressBar(){
