@@ -3,8 +3,11 @@
 		<h1>Tarefas</h1>
 		<ProgressBar :progress="progressBar" />
 		<Add @addTask="addTask" /> 
-		<div class="tarrefas">
+		<div v-if="tasks.length != 0" class="tarrefas">
 			<Tarrefas :tasks="tasks" @deleteTask="deleteTask" />
+		</div>
+		<div v-else>
+			<p class="no-task" >Tudo em ordem por aqui!</p>
 		</div>
 	</div>
 </template>
@@ -23,6 +26,10 @@ export default {
 		return{
 			tasks: [],
 		}
+	},
+	created (){
+		const json = localStorage.getItem('tasks')
+		this.tasks = JSON.parse(json) || []
 	},
 	methods:{
 		deleteTask(i){
@@ -51,6 +58,14 @@ export default {
 			const done = this.tasks.filter(t => t.status === true ).length
 
 			return Math.round( done / total * 100) || 0
+		}
+	},
+	watch:{
+		tasks:{
+			deep: true,
+			handler(){
+				localStorage.setItem('tasks', JSON.stringify(this.tasks))
+			}
 		}
 	}
 }
@@ -95,4 +110,10 @@ export default {
         height: 100%;
         width: 80%;
     }
+	.no-task{
+		margin: 65px;
+		font-size: 1.5rem;
+		color: #fff;
+
+	}
 </style>
